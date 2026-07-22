@@ -91,6 +91,8 @@ Dalam membangun aplikasi kecerdasan buatan berbasis [RAG architecture using Agen
 
 Berdasarkan desain tingkat tinggi pada sistem [RAG architecture using Agent Platform](https://www.skills.google/paths/1282/course_templates/1120/documents/636976), arsitektur ini dibagi menjadi beberapa bagian utama:
 
+![Arsitektur RAG]([https://github.com/user-attachments/assets/xxxx-xxxx](https://storage.googleapis.com/cloud-training/cls-html5-courses/T-BLDGEN-I/1.3/T-BLDGEN-I/assets/rag-capable-gen-ai-app-using-vertex-ai-architecture.svg)
+
 ### 1. Data Ingestion Subsystem
 * **Tujuan:** Menyiapkan dan memproses data eksternal (seperti file dokumen, data database, atau *streaming*) yang akan digunakan untuk mengaktifkan kapabilitas RAG serta *evaluation prompts*.
 * **Interaksi:** Subsistem ini hanya berinteraksi dengan subsistem lainnya melalui lapisan *database*.
