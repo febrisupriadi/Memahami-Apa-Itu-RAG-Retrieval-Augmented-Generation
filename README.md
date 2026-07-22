@@ -36,3 +36,48 @@ Berdasarkan arsitektur di atas, proses [Retrieval Augmented Generation (RAG)](ht
 
 ## 3. Generated Response (Pembuatan Jawaban)
 * **Proses:** Model LLM membaca seluruh informasi yang ada di dalam *augmented prompt* (termasuk dokumen referensi) untuk menghasilkan jawaban akhir yang akurat, kontekstual, dan sesuai dengan data terbaru.
+
+
+---
+
+# Memahami Semantic Search, Vector Search, dan Hubungannya dengan RAG
+
+Dalam membangun sistem [Retrieval-Augmented Generation (RAG)](https://www.skills.google/paths/1282/course_templates/1120/documents/636974), kualitas pencarian data (*retrieval*) sangat menentukan seberapa akurat jawaban yang diberikan oleh AI. Agar pencarian tidak sekadar mencocokkan kata perkata, RAG modern menggunakan **Semantic Search** dan **Vector Search**.
+
+---
+
+## 🔍 1. Apa itu Semantic Search?
+
+Secara tradisional, aplikasi menggunakan **Keyword Search** (pencarian kata kunci) yang hanya mencari teks yang persis sama dengan apa yang diketik pengguna. 
+
+Sebaliknya, **Semantic Search** berupaya memberikan hasil berdasarkan **makna atau konteks** dari pertanyaan, bukan sekadar kecocokan kata (*exact match*).
+* **Contoh:** Jika pengguna mencari *"destinasi liburan populer di selatan ekuator"*, Semantic Search mengerti bahwa ini adalah filter geografis (belahan bumi selatan), sedangkan pencarian kata kunci biasa mungkin hanya mencari kata "selatan" atau "ekuator" secara acak tanpa memahami maksudnya.
+
+---
+
+## 📐 2. Apa itu Vector Search?
+
+Untuk mewujudkan *semantic search*, teknologi yang digunakan di baliknya adalah **Vector Search**. 
+
+* **Vector Search** menggunakan **vector** (deretan angka) untuk merepresentasikan isi konten dan mengukur kemiripannya di dalam ruang multi-dimensi.
+* **Prosesnya terbagi menjadi 3 langkah:**
+  1. **Encode the data:** Mengubah teks, gambar, atau audio menjadi *vector embeddings* menggunakan model AI (seperti model *embedding* dari Vertex AI).
+  2. **Index the data:** Menyimpan dan mengelompokkan *embedding* tersebut ke dalam *database* khusus menggunakan indeks yang efisien (seperti teknologi [Vector Search](https://docs.cloud.google.com/gemini-enterprise-agent-platform/build/vector-search/overview) atau algoritma ScaNN) agar pencarian data skala besar bisa dilakukan dengan cepat.
+  3. **Search the data:** Saat ada pertanyaan baru, pertanyaan tersebut juga diubah menjadi *vector*, lalu sistem mencari data terdekat (*nearest neighbors*) yang memiliki makna paling mirip.
+
+---
+
+## 🔗 3. Hubungan RAG, Semantic Search, dan Vector Search
+
+Ketiga teknologi ini saling terikat erat dalam satu alur sistem yang utuh:
+
+```mermaid
+graph TD
+    A[Pertanyaan Pengguna] -->|1. Diubah jadi Vector| B[Semantic / Vector Search]
+    B -->|Mencari Dokumen Berdasarkan Makna| C[(Knowledge Base / Database)]
+    C -->|Hasil Dokumen Relevan| D[Augmented Prompt]
+    A -->|Pertanyaan Asli| D
+    D -->|Kirim ke AI| E[LLM / Gemini]
+    E -->|Jawaban Akurat & Berbasis Konteks| F[Respons ke Pengguna]
+```
+
