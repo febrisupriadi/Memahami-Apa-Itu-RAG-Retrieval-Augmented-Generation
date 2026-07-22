@@ -81,3 +81,39 @@ graph TD
     E -->|Jawaban Akurat & Berbasis Konteks| F[Respons ke Pengguna]
 ```
 
+# High-Level Architecture dalam Sistem RAG (Retrieval-Augmented Generation)
+
+Dalam membangun aplikasi kecerdasan buatan berbasis [RAG architecture using Agent Platform](https://www.skills.google/paths/1282/course_templates/1120/documents/636976), **High-level architecture (Arsitektur Tingkat Tinggi)** adalah cetak biru konseptual yang menggambarkan bagaimana komponen-komponen utama dan subsistem saling terhubung di Google Cloud untuk memproses data hingga menjawab permintaan pengguna.
+
+---
+
+## 🏗️ 4 Komponen Utama / Subsistem dalam Arsitektur
+
+Berdasarkan desain tingkat tinggi pada sistem [RAG architecture using Agent Platform](https://www.skills.google/paths/1282/course_templates/1120/documents/636976), arsitektur ini dibagi menjadi beberapa bagian utama:
+
+### 1. Data Ingestion Subsystem
+* **Tujuan:** Menyiapkan dan memproses data eksternal (seperti file dokumen, data database, atau *streaming*) yang akan digunakan untuk mengaktifkan kapabilitas RAG serta *evaluation prompts*.
+* **Interaksi:** Subsistem ini hanya berinteraksi dengan subsistem lainnya melalui lapisan *database*.
+
+### 2. Serving Subsystem
+* **Tujuan:** Menangani alur permintaan dan jawaban (*request-response*) secara *real-time* antara aplikasi AI (seperti *chatbot* atau aplikasi seluler) dengan penggunanya.
+* **Interaksi:** Mengambil data yang sudah diproses dan diubah menjadi *embeddings* melalui lapisan *database* untuk melakukan *semantic search*.
+
+### 3. Quality Evaluation Subsystem (Opsional)
+* **Tujuan:** Menyediakan metode otomatis untuk mengevaluasi kualitas respons yang dihasilkan oleh *serving subsystem* (misalnya menguji akurasi faktual dan relevansi).
+* **Interaksi:** Berinteraksi langsung dengan *serving subsystem* dan terhubung ke *data ingestion subsystem* melalui *database*.
+
+### 4. Databases
+* **Tujuan:** Menyimpan berbagai data penting sistem, yang meliputi:
+  * *Prompts*
+  * *Vectorized embeddings* dari data RAG
+  * Konfigurasi untuk *serverless jobs* pada subsistem *data ingestion* dan *quality evaluation*.
+* **Interaksi:** Menjadi pusat penghubung di mana **seluruh subsistem** dalam arsitektur berinteraksi dengannya.
+
+---
+
+## 💡 Mengapa High-Level Architecture Ini Penting?
+
+1. **Memberikan Kejelasan Alur Kerja (*End-to-End*):** Membantu pengembang memahami perjalanan data secara utuh—mulai dari dokumen diunggah, diproses menjadi *vector*, disimpan di *database*, dicari secara *semantic*, hingga akhirnya dirangkum oleh LLM menjadi jawaban akurat bagi pengguna.
+2. **Skalabilitas dan Modularitas:** Dengan memisahkan fungsi ke dalam subsistem yang spesifik (seperti pemisahan antara pengolahan data mentah dan penanganan *traffic* pengguna), sistem dapat dikembangkan, diskalakan, atau diperbarui secara independen tanpa merusak sistem secara keseluruhan.
+3. **Standar Desain *Enterprise*:** Memastikan aplikasi AI dibangun di atas fondasi cloud yang terstruktur, aman, serta mendukung pemantauan kinerja dan evaluasi kualitas data secara berkelanjutan.
